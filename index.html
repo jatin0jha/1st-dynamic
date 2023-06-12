@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Registration Form</h1>
+    <form id="registrationForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <button type="submit">Register</button>
+    </form>
+    <div id="adminPanel" style="display: none;">
+        <h2>Admin Panel</h2>
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" required>
+        <button onclick="checkPassword()">Submit</button>
+        <p id="adminEmail"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
