@@ -1,25 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Registration Form</title>
-    <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      text-align: center;
+      font-family: system-ui, 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    form {
+      border: 1px solid #757575;
+      border-radius: 30px;
+      padding: 0;
+      width: max-content;
+      margin: 0 auto;
+    }
+
+    form input {
+      background-color: #00000000;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      padding: 5px;
+    }
+
+    form input:focus {
+      outline: none;
+    }
+
+    form input[type="submit"] {
+      background-color: #757575;
+      border-radius: 30px;
+      color: #ffffff;
+      font-size: 20px;
+      padding: 5px 10px;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #ffffff;
+      color: #000000;
+      cursor: pointer;
+    }
+
+    table {
+      margin: 0 auto;
+    }
+
+    thead {
+      background-color: #757575;
+      color: #ffffff;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #757575;
+    }
+
+    #admin {
+      display: none;
+    }
+
+    #admin:target {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <h1>Registration Form</h1>
-    <form id="registrationForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-
-        <button type="submit">Register</button>
+  <div>
+    <h1>Register</h1>
+    <form id="reg-bar">
+      <input type="email" id="emailInput" placeholder="Email">
+      <input type="submit" value="Submit">
     </form>
-    <div id="adminPanel" style="display: none;">
-        <h2>Admin Panel</h2>
-        <label for="password">Enter Password:</label>
-        <input type="password" id="password" required>
-        <button onclick="checkPassword()">Submit</button>
-        <p id="adminEmail"></p>
-    </div>
+  </div>
+  <div id="admin">
+    <h1>Admin login <a style="color: red; text-decoration: none;" href="index.html">&#215;</a></h1>
+    <form id="log-bar">
+      <input type="password" id="passwordInput" placeholder="Password">
+      <input type="submit" value="Login">
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="dataRows">
+      </tbody>
+    </table>
+  </div>
+  <a style="position: absolute; bottom: 30px; right: 30px;" href="#admin">Admin</a>
 
-    <script src="script.js"></script>
+  <script>
+    // Retrieve data from local storage
+    const storedData = localStorage.getItem('userData');
+    const userData = storedData ? JSON.parse(storedData) : [];
+
+    // Function to save data to local storage
+    function saveData(data) {
+      userData.push(data);
+      localStorage.setItem('userData', JSON.stringify(userData));
+    }
+
+    // Event listener for registration form submission
+    document.getElementById('reg-bar').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value;
+
+      // Save data and update table
+      saveData(email);
+      updateTable();
+      document.getElementById('emailInput').value = '';
+    });
+
+    // Event listener for admin login form submission
+    document.getElementById('log-bar').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const password = document.getElementById('passwordInput').value;
+
+      // Check password and show/hide admin section accordingly
+      if (password === 'admin123') {
+        document.getElementById('admin').style.display = 'block';
+        updateTable();
+        document.getElementById('passwordInput').value = '';
+      } else {
+        alert('Incorrect password. Please try again.');
+      }
+    });
+
+    // Function to update the table with user data
+    function updateTable() {
+      const dataRows = document.getElementById('dataRows');
+      dataRows.innerHTML = '';
+
+      userData.forEach(function (email) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.textContent = email;
+        row.appendChild(cell);
+        dataRows.appendChild(row);
+      });
+    }
+  </script>
 </body>
 </html>
